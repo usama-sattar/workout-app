@@ -14,7 +14,7 @@ export default function UserProvider({ children }) {
         setUser(parsed)
         setIsLogged(true)
       }
-    })();
+    })
   }, []);
 
   const login = async (user) => {
