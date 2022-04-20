@@ -3,5 +3,6 @@ export const colors = {
     black: '#000',
     primary: '#881d15',
     error: '#ffba08',
-    grey: '#D3D3D3'
+    grey: '#D3D3D3',
+    gray:'gray'
 }

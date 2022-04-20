@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
   },
   topContainer: {
     backgroundColor: colors.white,
-    flex: 0.2,
+    flex: 0.3,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
   },
   lowerContainer: {
     backgroundColor: colors.primary,
-    flex: 0.8,
+    flex: 0.7,
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
   },

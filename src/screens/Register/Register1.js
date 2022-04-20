@@ -113,6 +113,16 @@ export default function Register({ navigation }) {
                 defaultValue={firstName}
                 returnKeyType="next"
                 style={{ paddingLeft: 8 }}
+                leftIcon={
+                  <Icon
+                    onPress={() => setShowPassword(!showPassword)}
+                    type="font-awesome"
+                    color="gray"
+                    name={'user'}
+                    size={15}
+                    style={{marginLeft:10}}
+                  />
+                }
               />
               <Input
                 placeholder="Last Name"
@@ -127,6 +137,16 @@ export default function Register({ navigation }) {
                 defaultValue={lastName}
                 returnKeyType="next"
                 style={{ paddingLeft: 8 }}
+                leftIcon={
+                  <Icon
+                    onPress={() => setShowPassword(!showPassword)}
+                    type="font-awesome"
+                    color="gray"
+                    name={'user'}
+                    size={15}
+                    style={{marginLeft:10}}
+                  />
+                }
               />
               <Input
                 placeholder="Email"
@@ -142,6 +162,16 @@ export default function Register({ navigation }) {
                 defaultValue={email}
                 returnKeyType="next"
                 style={{ paddingLeft: 8 }}
+                leftIcon={
+                  <Icon
+                    onPress={() => setShowPassword(!showPassword)}
+                    type="material-icon"
+                    color="gray"
+                    name={'email'}
+                    size={15}
+                    style={{marginLeft:10}}
+                  />
+                }
               />
 
               <Input
@@ -159,6 +189,16 @@ export default function Register({ navigation }) {
                 autoCapitalize="none"
                 errorStyle={{ color: colors.error }}
                 defaultValue={password}
+                leftIcon={
+                  <Icon
+                    onPress={() => setShowPassword(!showPassword)}
+                    type="entypo"
+                    color="gray"
+                    name={'lock'}
+                    size={15}
+                    style={{marginLeft:10}}
+                  />
+                }
                 rightIcon={
                   <Icon
                     onPress={() => setShowPassword(!showPassword)}
@@ -195,7 +235,7 @@ export default function Register({ navigation }) {
               <Button
                 title={
                   <Icon
-                    onPress={() => setShowPassword(!showPassword)}
+                    onPress={moveNext}
                     type="ant-design"
                     color={colors.primary}
                     name={"arrowright"}

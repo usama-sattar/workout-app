@@ -68,6 +68,16 @@ export default function Login({ navigation }) {
                 defaultValue={email}
                 returnKeyType="next"
                 style={{ paddingLeft: 8 }}
+                leftIcon={
+                  <Icon
+                    onPress={() => setShowPassword(!showPassword)}
+                    type="material-icon"
+                    color="gray"
+                    name={'email'}
+                    size={15}
+                    style={{marginLeft:10}}
+                  />
+                }
               />
               <Input
                 placeholder="Password"
@@ -85,13 +95,23 @@ export default function Login({ navigation }) {
                 autoCapitalize="none"
                 errorStyle={{ color: colors.error }}
                 defaultValue={password}
+                leftIcon={
+                  <Icon
+                    onPress={() => setShowPassword(!showPassword)}
+                    type="entypo"
+                    color="gray"
+                    name={'lock'}
+                    size={15}
+                    style={{marginLeft:10}}
+                  />
+                }
                 rightIcon={
                   <Icon
                     onPress={() => setShowPassword(!showPassword)}
                     type="font-awesome"
                     color="gray"
                     name={showPassword ? "eye" : "eye-slash"}
-                    size={20}
+                    size={15}
                   />
                 }
               />

@@ -27,7 +27,8 @@ export default function Register3() {
   const [female, setFemale] = useState("");
   const [nonBinary, setNonBinary] = useState("");
   const [none, setNone] = useState("");
-  const { gender, setGender } = useRegister();
+  const [emptyMessage, setEmptyMessage] = useState("");
+  const { setGender, height, gender, setHeight, weight,setWeight, onRegister } = useRegister();
 
   const genderMale = () => {
     setMale(true);
@@ -56,6 +57,22 @@ export default function Register3() {
     setNonBinary(false);
     setNone(true);
     setGender("none");
+  };
+  const signUp = () => {
+    if (
+      weight === 0 ||
+      height === 0 ||
+      gender === "" 
+    ) {
+      setEmptyMessage("Fill out all fields");
+      setTimeout(() => {
+        setEmptyMessage("");
+      }, 2000);
+      return;
+    }
+    if (!error) {
+        onRegister()
+    }
   };
   return (
     <KeyboardAvoidingView
@@ -93,7 +110,7 @@ export default function Register3() {
               >
                 Step 3/3
               </Text>
-              {/* {emptyMessage !== "" && (
+              {emptyMessage !== "" && (
                 <Text
                   style={{
                     fontSize: 12,
@@ -104,7 +121,7 @@ export default function Register3() {
                 >
                   {emptyMessage}
                 </Text>
-              )} */}
+              )}
             </View>
             <View style={{ display: "flex", marginLeft: 20 }}>
               <View>
@@ -116,6 +133,16 @@ export default function Register3() {
                   keyboardType="numeric"
                   returnKeyType="next"
                   style={{ paddingLeft: 8 }}
+                  leftIcon={
+                    <Icon
+                      onPress={() => setShowPassword(!showPassword)}
+                      type="material-community"
+                      color="gray"
+                      name={'weight-kilogram'}
+                      size={15}
+                      style={{marginLeft:10}}
+                    />
+                  }
                 />
               </View>
               <View>
@@ -127,6 +154,17 @@ export default function Register3() {
                   keyboardType="numeric"
                   returnKeyType="next"
                   style={{ paddingLeft: 8 }}
+                  leftIcon={
+                    <Icon
+                      onPress={() => setShowPassword(!showPassword)}
+                      type="material-community"
+                      color="gray"
+                      name={'human-male-height'}
+                      size={15}
+                      style={{marginLeft:10}}
+                    />
+                  }
+                  
                 />
               </View>
               <Text style={{ color: colors.white, fontSize: 15 }}>Gender</Text>
@@ -183,7 +221,7 @@ export default function Register3() {
               <Button
                 title="Sign Up"
                 // disabled={loading}
-                // onPress={onLogin}
+                onPress={signUp}
                 buttonStyle={{
                   backgroundColor: colors.error,
                   borderColor: "transparent",

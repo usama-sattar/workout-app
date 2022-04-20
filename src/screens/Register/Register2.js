@@ -17,6 +17,7 @@ import {
   LinearProgress,
   CheckBox,
 } from "@rneui/themed";
+import ModalSelector from "react-native-modal-selector";
 const { height } = Dimensions.get("window");
 import { colors } from "../../utils/colors";
 import CountryPicker from "react-native-country-picker-modal";
@@ -41,7 +42,32 @@ export default function Register2({ navigation }) {
   } = useRegister();
 
   const [showDate, setShowDate] = useState(false);
-  
+  const [emptyMessage, setEmptyMessage] = useState("");
+ 
+  const data = [
+    { key: 0, section: true, label: "Units" },
+    { key: 1, label: "Standard" },
+    { key: 2, label: "Metric" },
+    { key: 3, label: "Local" },
+    { key: 4, label: "UTC/GMT" },
+  ];
+  const moveNext = () => {
+    if (
+      country === "" ||
+      phone === "" ||
+      date === null ||
+      units === ""
+    ) {
+      setEmptyMessage("Fill out all fields");
+      setTimeout(() => {
+        setEmptyMessage("");
+      }, 2000);
+      return;
+    }
+    if (!error) {
+      navigation.navigate("Register3");
+    }
+  };
   return (
     <KeyboardAvoidingView
       style={{ flex: 1, flexDirection: "column", justifyContent: "center" }}
@@ -78,7 +104,7 @@ export default function Register2({ navigation }) {
               >
                 Step 2/3
               </Text>
-              {/* {emptyMessage !== "" && (
+              {emptyMessage !== "" && (
                 <Text
                   style={{
                     fontSize: 12,
@@ -89,7 +115,7 @@ export default function Register2({ navigation }) {
                 >
                   {emptyMessage}
                 </Text>
-              )} */}
+              )}
             </View>
             <View style={{ alignSelf: "center" }}>
               <View
@@ -98,6 +124,11 @@ export default function Register2({ navigation }) {
                   marginBottom: 10,
                   flexDirection: "row",
                   alignItems: "center",
+                  borderWidth:0.5,
+                  borderColor:colors.white,
+                  borderRadius:5,
+                  width:120,
+                  padding:5
                 }}
               >
                 <CountryPicker
@@ -105,6 +136,7 @@ export default function Register2({ navigation }) {
                   onSelect={(country) => onCountrySelect(country)}
                   withAlphaFilter
                   withFilter
+                  
                 />
                 <Text style={{ color: colors.white }}>{country?.name}</Text>
               </View>
@@ -117,6 +149,16 @@ export default function Register2({ navigation }) {
                 errorStyle={{ color: colors.error }}
                 returnKeyType="next"
                 style={{ paddingLeft: 8 }}
+                leftIcon={
+                  <Icon
+                    onPress={() => setShowPassword(!showPassword)}
+                    type="material-icon"
+                    color="gray"
+                    name={'phone'}
+                    size={15}
+                    style={{marginLeft:10}}
+                  />
+                }
               />
               <Button
                 title={date ? date.toDateString() : "Date Of Birth"}
@@ -124,11 +166,11 @@ export default function Register2({ navigation }) {
                   name: "date-range",
                   type: "material-icons",
                   size: 15,
-                  color: colors.error,
+                  color: colors.gray,
                 }}
                 iconRight
                 iconContainerStyle={{ marginLeft: 10 }}
-                titleStyle={{ fontWeight: "700", color: colors.error }}
+                titleStyle={{ color: colors.gray }}
                 buttonStyle={{
                   backgroundColor: colors.white,
                   borderColor: "transparent",
@@ -167,26 +209,38 @@ export default function Register2({ navigation }) {
                     width: 140,
                     height: 50,
                     marginVertical: 10,
-                    backgroundColor: "white",
+                    backgroundColor:
+                      Platform.OS === "android" ? colors.white : "transparent",
                     elevation: 8,
                     borderRadius: 5,
                   }}
                 >
-                  <Picker
-                    selectedValue={units}
-                    onValueChange={(unit, item) => setUnits(unit)}
-                    style={{
-                      color: colors.black,
-                      width: "100%",
-                      height: "100%",
-                      textAlign:'center'
-                    }}
-                  >
-                    <Picker.Item label="Standard" value="Standard" />
-                    <Picker.Item label="Metric" value="Metric" />
-                    <Picker.Item label="Local" value="Local" />
-                    <Picker.Item label="UTC/GMT" value="UTC/GMT" />
-                  </Picker>
+                  {Platform.OS === "android" ? (
+                    <Picker
+                      selectedValue={units}
+                      onValueChange={(unit, item) => setUnits(unit)}
+                      style={{
+                        color: colors.gray,
+                        width: "100%",
+                        height: "100%",
+                        textAlign: "center",
+                      }}
+                    >
+                      <Picker.Item label="Standard" value="Standard" />
+                      <Picker.Item label="Metric" value="Metric" />
+                      <Picker.Item label="Local" value="Local" />
+                      <Picker.Item label="UTC/GMT" value="UTC/GMT" />
+                    </Picker>
+                  ) : (
+                    <ModalSelector
+                      data={data}
+                      initValue={units}
+                      cancelButtonAccessibilityLabel={"Cancel Button"}
+                      onChange={(option) => {
+                        setUnits(option.label);
+                      }}
+                    ></ModalSelector>
+                  )}
                 </View>
               </View>
             </View>
@@ -215,7 +269,7 @@ export default function Register2({ navigation }) {
               <Button
                 title={
                   <Icon
-                    onPress={() => setShowPassword(!showPassword)}
+                    onPress={moveNext}
                     type="ant-design"
                     color={colors.primary}
                     name={"arrowright"}
@@ -223,7 +277,7 @@ export default function Register2({ navigation }) {
                   />
                 }
                 // disabled={loading}
-                onPress={() => navigation.navigate("Register3")}
+                onPress={moveNext}
                 buttonStyle={{
                   backgroundColor: colors.error,
                   borderColor: "transparent",
@@ -243,9 +297,7 @@ export default function Register2({ navigation }) {
                   elevation: 3,
                 }}
                 titleStyle={{ color: colors.primary }}
-              >
-            
-              </Button>
+              ></Button>
             </View>
           </View>
         </View>

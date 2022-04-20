@@ -12,6 +12,8 @@ export function useRegister() {
   const [date, setDate] = useState(null)
   const [gender, setGender] = useState('')
   const [units, setUnits] = useState('Standard');
+  const [weight, setWeight] = useState(0);
+  const [height, setHeight] = useState(0);
   const [country, setCountry] = useState({
     callingCode: ['92'],
     cca2: 'PK',
@@ -46,6 +48,10 @@ export function useRegister() {
     onCountrySelect,
     date,
     setError,
+    height,
+    weight,
+    setHeight,
+    setWeight,
     setDate,
     gender,
     setGender,
