@@ -11,13 +11,13 @@ export function useLogin() {
 
   const isValid = async () => {
     const errors = validateLogin({ email, password })
-    console.log(email + password)
     setError(errors)
     if (errors) return false
     return true
   }
   const onLogin = async () => { 
     login({email,password})
+    
   }
   return {
     onLogin,

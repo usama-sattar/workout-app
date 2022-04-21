@@ -14,21 +14,32 @@ import {
   Button,
   Input,
   Icon,
-  LinearProgress,
   CheckBox,
 } from "@rneui/themed";
 const { height } = Dimensions.get("window");
 import { colors } from "../../utils/colors";
-import CountryPicker from "react-native-country-picker-modal";
 import { useRegister } from "./useRegister";
-import DateTimePicker from "@react-native-community/datetimepicker";
-export default function Register3() {
+import validateRegister from "../../utils/validate";
+
+export default function Register3({route}) {
+  const {  firstName,lastName,email,password, countryName, phone, date, units } = route.params
   const [male, setMale] = useState("");
   const [female, setFemale] = useState("");
   const [nonBinary, setNonBinary] = useState("");
   const [none, setNone] = useState("");
   const [emptyMessage, setEmptyMessage] = useState("");
-  const { setGender, height, gender, setHeight, weight,setWeight, onRegister } = useRegister();
+  const { onRegister } = useRegister();
+  const [weight, setWeight] = useState('');
+  const [userHeight, setHeight] = useState('');
+  const [gender, setGender] = useState('');
+  const [error, setError] = useState();
+
+  const isValid = async () => {
+    const errors = validateRegister({ weight,userHeight });
+    setError(errors);
+    if (errors) return false;
+    return true;
+  };
 
   const genderMale = () => {
     setMale(true);
@@ -60,8 +71,8 @@ export default function Register3() {
   };
   const signUp = () => {
     if (
-      weight === 0 ||
-      height === 0 ||
+      weight === "" ||
+      userHeight === "" ||
       gender === "" 
     ) {
       setEmptyMessage("Fill out all fields");
@@ -70,8 +81,10 @@ export default function Register3() {
       }, 2000);
       return;
     }
-    if (!error) {
-        onRegister()
+    if (error?.height !=="" && error?.weight !== "") {
+        onRegister({
+          firstName,lastName,email,password, countryName, phone, date, units, weight,height,gender
+        })
     }
   };
   return (
@@ -129,9 +142,16 @@ export default function Register3() {
                   placeholder="Weight in kg"
                   inputContainerStyle={styles.inputStyle}
                   autoCapitalize="none"
+                  defaultValue={weight}
+                  onChangeText={(text) => setWeight(text)}
+                  onBlur={isValid}
                   errorStyle={{ color: colors.error }}
                   keyboardType="numeric"
                   returnKeyType="next"
+                  errorMessage={
+                    error && error.weight ? error.weight.join(",") : null
+                  } 
+                 
                   style={{ paddingLeft: 8 }}
                   leftIcon={
                     <Icon
@@ -150,6 +170,12 @@ export default function Register3() {
                   placeholder="Height in cm"
                   inputContainerStyle={[styles.inputStyle, { marginTop: 0 }]}
                   autoCapitalize="none"
+                  defaultValue={userHeight}
+                  errorMessage={
+                    error && error.height ? error.height.join(",") : null
+                  }   
+                  onBlur={isValid} 
+                  onChangeText={(text) => setHeight(text)}
                   errorStyle={{ color: colors.error }}
                   keyboardType="numeric"
                   returnKeyType="next"

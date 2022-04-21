@@ -18,6 +18,12 @@ export default function Login({ navigation }) {
   const [showPassword, setShowPassword] = useState(false);
   const { onLogin, isValid, error, setPassword, setEmail, email, password } =
     useLogin();
+  
+    const Login = () =>{
+      if(error?.email !== "" && error?.password!== ""){
+        onLogin()
+      }
+    }
   return (
     <KeyboardAvoidingView
       style={{ flex: 1, flexDirection: "column", justifyContent: "center" }}
@@ -28,7 +34,7 @@ export default function Login({ navigation }) {
         bounces={false}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
-          height: height * 1.0,
+          height: height,
         }}
       >
         <View style={{ flex: 1, backgroundColor: colors.white }}>
@@ -126,7 +132,7 @@ export default function Login({ navigation }) {
               <Button
                 title="Sign in"
                 // disabled={loading}
-                onPress={onLogin}
+                onPress={Login}
                 buttonStyle={{
                   backgroundColor: colors.error,
                   borderColor: "transparent",

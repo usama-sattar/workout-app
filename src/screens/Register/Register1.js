@@ -9,45 +9,53 @@ import {
   Platform,
 } from "react-native";
 import styles from "./styles";
-import { Image, Button, Input, Icon, LinearProgress } from "@rneui/themed";
+import { Image, Button, Input, Icon } from "@rneui/themed";
 const { height } = Dimensions.get("window");
 import { colors } from "../../utils/colors";
-import { useRegister } from "./useRegister";
+import validateRegister from "../../utils/validate";
 
 export default function Register({ navigation }) {
   const [showPassword, setShowPassword] = useState(false);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState();
 
-  const {
-    onRegister,
-    isValid,
-    setPassword,
-    setEmail,
-    setFirstName,
-    setLastName,
-    firstName,
-    lastName,
-    email,
-    password,
-    phone,
-    error,
-    setError,
-  } = useRegister();
+  const isValid = async () => {
+    const errors = validateRegister({ firstName, lastName, email, password });
+    setError(errors);
+    if (errors) return false;
+    return true;
+  };
   const [emptyMessage, setEmptyMessage] = useState("");
+
   const moveNext = () => {
-    // if (
-    //   firstName === "" ||
-    //   lastName === "" ||
-    //   email === "" ||
-    //   password === ""
-    // ) {
-    //   setEmptyMessage("Fill out all fields");
-    //   setTimeout(() => {
-    //     setEmptyMessage("");
-    //   }, 2000);
-    //   return;
-    // }
-    if (!error) {
-      navigation.navigate("Register2");
+    if (
+      firstName === "" ||
+      lastName === "" ||
+      email === "" ||
+      password === ""
+    ) {
+      setEmptyMessage("Fill out all fields");
+      setTimeout(() => {
+        setEmptyMessage("");
+      }, 2000);
+      return;
+    }
+
+    if (
+      error?.firstName !== "" &&
+      error?.lastName !== "" &&
+      error?.email !== "" &&
+      error?.password !== ""
+    ) {
+      navigation.navigate("Register2", {
+        firstName,
+        lastName,
+        email,
+        password,
+      });
     }
   };
   return (
@@ -81,7 +89,7 @@ export default function Register({ navigation }) {
                   fontSize: 12,
                   color: colors.white,
                   textAlign: "center",
-                  marginVertical: 10,
+                  marginVertical: 5,
                 }}
               >
                 Step 1/3
@@ -92,7 +100,7 @@ export default function Register({ navigation }) {
                     fontSize: 12,
                     color: colors.error,
                     textAlign: "center",
-                    marginVertical: 10,
+                    marginVertical: 5,
                   }}
                 >
                   {emptyMessage}
@@ -118,9 +126,9 @@ export default function Register({ navigation }) {
                     onPress={() => setShowPassword(!showPassword)}
                     type="font-awesome"
                     color="gray"
-                    name={'user'}
+                    name={"user"}
                     size={15}
-                    style={{marginLeft:10}}
+                    style={{ marginLeft: 10 }}
                   />
                 }
               />
@@ -142,9 +150,9 @@ export default function Register({ navigation }) {
                     onPress={() => setShowPassword(!showPassword)}
                     type="font-awesome"
                     color="gray"
-                    name={'user'}
+                    name={"user"}
                     size={15}
-                    style={{marginLeft:10}}
+                    style={{ marginLeft: 10 }}
                   />
                 }
               />
@@ -167,9 +175,9 @@ export default function Register({ navigation }) {
                     onPress={() => setShowPassword(!showPassword)}
                     type="material-icon"
                     color="gray"
-                    name={'email'}
+                    name={"email"}
                     size={15}
-                    style={{marginLeft:10}}
+                    style={{ marginLeft: 10 }}
                   />
                 }
               />
@@ -194,9 +202,9 @@ export default function Register({ navigation }) {
                     onPress={() => setShowPassword(!showPassword)}
                     type="entypo"
                     color="gray"
-                    name={'lock'}
+                    name={"lock"}
                     size={15}
-                    style={{marginLeft:10}}
+                    style={{ marginLeft: 10 }}
                   />
                 }
                 rightIcon={

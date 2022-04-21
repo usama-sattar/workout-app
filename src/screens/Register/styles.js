@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
   },
   lowerContainer: {
     backgroundColor: colors.primary,
-    flex: 0.7,
+    flex: 0.8,
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
   },

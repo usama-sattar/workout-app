@@ -23,11 +23,17 @@ export default function UserProvider({ children }) {
     setUser(user);
     setIsLogged(true)
   };
+  const register = async (user) => {
+    // await AsyncStorage.setItem("user", JSON.stringify(user));
+    console.log(user)
+    setUser(user);
+    setIsLogged(true)
+  };
 
   const logout = async () => {
     // await AsyncStorage.removeItem("user");
     setUser(null);
     setIsLogged(false)
   };
-  return <UserContext.Provider value={{isLogged, user, login,logout}}>{children}</UserContext.Provider>;
+  return <UserContext.Provider value={{isLogged, user, login,logout, register}}>{children}</UserContext.Provider>;
 }

@@ -3,8 +3,10 @@ import { Text, View, StatusBar as bar } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context'
 import UserProvider from './src/context/user';
 import AppContainer from './src/routes';
+import { LogBox } from 'react-native'
 
-
+LogBox.ignoreLogs(['Warning: ...']);
+LogBox.ignoreAllLogs();
 export default function App() {
   return (
     <SafeAreaProvider style={{ marginTop: bar.currentHeight}}>

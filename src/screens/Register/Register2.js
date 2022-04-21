@@ -24,23 +24,38 @@ import CountryPicker from "react-native-country-picker-modal";
 import { useRegister } from "./useRegister";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Picker } from "@react-native-picker/picker";
-export default function Register2({ navigation }) {
-  const [showPassword, setShowPassword] = useState(false);
-  const {
-    onRegister,
-    isValid,
-    phone,
-    setPhone,
-    date,
-    setDate,
-    error,
-    country,
-    countryCode,
-    onCountrySelect,
-    units,
-    setUnits,
-  } = useRegister();
+import validateRegister from "../../utils/validate";
 
+
+export default function Register2({ navigation, route }) {
+  const {  firstName,lastName,email,password } = route.params
+  const [showPassword, setShowPassword] = useState(false);
+  const [countryCode, setCountryCode] = useState('PK')
+  const [date, setDate] = useState(null)
+  const [phone, setPhone] = useState('')
+  const [units, setUnits] = useState('Standard');
+
+  const [country, setCountry] = useState({
+    callingCode: ['92'],
+    cca2: 'PK',
+    currency: ['PKR'],
+    flag: 'flag-pk',
+    name: 'Pakistan',
+    region: 'Asia',
+    subregion: 'Southern Asia'
+  })
+  const [error, setError] = useState();
+
+  const isValid = async () => {
+    const errors = validateRegister({ phone });
+    setError(errors);
+    if (errors) return false;
+    return true;
+  };
+  const onCountrySelect = country => {
+    setCountryCode(country.cca2)
+    setCountry(country)
+  }
   const [showDate, setShowDate] = useState(false);
   const [emptyMessage, setEmptyMessage] = useState("");
  
@@ -64,8 +79,11 @@ export default function Register2({ navigation }) {
       }, 2000);
       return;
     }
-    if (!error) {
-      navigation.navigate("Register3");
+    if (error?.phone !== "") {
+      const {name:countryName} = country?.name
+      navigation.navigate("Register3",{
+        firstName,lastName,email,password, countryName, phone, date, units
+      });
     }
   };
   return (
@@ -99,7 +117,7 @@ export default function Register2({ navigation }) {
                   fontSize: 12,
                   color: colors.white,
                   textAlign: "center",
-                  marginVertical: 10,
+                  marginVertical: 5,
                 }}
               >
                 Step 2/3
@@ -110,7 +128,7 @@ export default function Register2({ navigation }) {
                     fontSize: 12,
                     color: colors.error,
                     textAlign: "center",
-                    marginVertical: 10,
+                    marginVertical: 5,
                   }}
                 >
                   {emptyMessage}
@@ -144,9 +162,14 @@ export default function Register2({ navigation }) {
                 placeholder="Phone Number"
                 inputContainerStyle={styles.inputStyle}
                 onChangeText={(text) => setPhone(text)}
+                keyboardType="numeric"
+                onBlur={isValid}
                 defaultValue={`${phone}`}
                 autoCapitalize="none"
-                errorStyle={{ color: colors.error }}
+                errorMessage={
+                  error && error.phone ? error.phone.join(",") : null
+                } 
+               errorStyle={{ color: colors.error }}
                 returnKeyType="next"
                 style={{ paddingLeft: 8 }}
                 leftIcon={

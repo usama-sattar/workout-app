@@ -21,9 +21,24 @@ const constraints = {
       maximum: 20
     }
   },
+  phone:{
+    format: {
+      pattern: "[0-9]+"
+    }
+  },
+  weight:{
+    format: {
+      pattern: "[0-9]+"
+    }
+  },
+  height:{
+    format: {
+      pattern: "[0-9]+"
+    }
+  },
+  
  
 }
-
 export default function validateFunc(form) {
   return validate(form, constraints)
 }
