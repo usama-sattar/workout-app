@@ -1,6 +1,6 @@
 import { validate } from 'validate.js'
 
-const constraints = {
+const constraints1 = {
   firstName:{
     presence:true
   },
@@ -21,11 +21,17 @@ const constraints = {
       maximum: 20
     }
   },
+}
+
+const constraints2 = {
   phone:{
     format: {
       pattern: "[0-9]+"
     }
   },
+}
+
+const constraints3 = {
   weight:{
     format: {
       pattern: "[0-9]+"
@@ -37,8 +43,13 @@ const constraints = {
     }
   },
   
- 
 }
-export default function validateFunc(form) {
-  return validate(form, constraints)
+export default function validateFunc1(form) {
+  return validate(form, constraints1)
+}
+export function validateFunc2(form) {
+  return validate(form, constraints2)
+}
+export function validateFunc3(form) {
+  return validate(form, constraints3)
 }

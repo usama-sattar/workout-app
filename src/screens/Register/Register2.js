@@ -24,11 +24,10 @@ import CountryPicker from "react-native-country-picker-modal";
 import { useRegister } from "./useRegister";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Picker } from "@react-native-picker/picker";
-import validateRegister from "../../utils/validate";
-
+import {validateFunc2} from "../../utils/validate";
 
 export default function Register2({ navigation, route }) {
-  const {  firstName,lastName,email,password } = route.params
+  const { firstName,lastName,email,password } = route.params
   const [showPassword, setShowPassword] = useState(false);
   const [countryCode, setCountryCode] = useState('PK')
   const [date, setDate] = useState(null)
@@ -47,7 +46,7 @@ export default function Register2({ navigation, route }) {
   const [error, setError] = useState();
 
   const isValid = async () => {
-    const errors = validateRegister({ phone });
+    const errors = validateFunc2({ phone });
     setError(errors);
     if (errors) return false;
     return true;
@@ -66,7 +65,7 @@ export default function Register2({ navigation, route }) {
     { key: 3, label: "Local" },
     { key: 4, label: "UTC/GMT" },
   ];
-  const moveNext = () => {
+  const moveNext =async () => {
     if (
       country === "" ||
       phone === "" ||
@@ -79,10 +78,11 @@ export default function Register2({ navigation, route }) {
       }, 2000);
       return;
     }
-    if (error?.phone !== "") {
-      const {name:countryName} = country?.name
+    if (!error) {
+      const {name:countryName} = await country
+      const d = await date.toString()
       navigation.navigate("Register3",{
-        firstName,lastName,email,password, countryName, phone, date, units
+        firstName,lastName,email,password, countryName, phone, d, units
       });
     }
   };

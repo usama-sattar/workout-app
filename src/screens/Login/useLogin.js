@@ -4,10 +4,10 @@ import validateLogin from '../../utils/validate'
 
 
 export function useLogin() {
-  const {login}  = useContext(UserContext)
+  const {login, loginError}  = useContext(UserContext)
   const [error, setError] = useState()
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [email, setEmail] = useState('junaidjavaid971@gmail.com')
+  const [password, setPassword] = useState('Junaid@12')
 
   const isValid = async () => {
     const errors = validateLogin({ email, password })
@@ -16,8 +16,7 @@ export function useLogin() {
     return true
   }
   const onLogin = async () => { 
-    login({email,password})
-    
+    login({email,password}) 
   }
   return {
     onLogin,
@@ -26,6 +25,7 @@ export function useLogin() {
     setEmail,
     email,
     password,
-    error
+    error,
+    loginError
   }
 }

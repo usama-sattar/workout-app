@@ -19,10 +19,10 @@ import {
 const { height } = Dimensions.get("window");
 import { colors } from "../../utils/colors";
 import { useRegister } from "./useRegister";
-import validateRegister from "../../utils/validate";
+import {validateFunc3} from "../../utils/validate";
 
 export default function Register3({route}) {
-  const {  firstName,lastName,email,password, countryName, phone, date, units } = route.params
+  const { firstName,lastName,email,password, countryName, phone, d, units } = route.params
   const [male, setMale] = useState("");
   const [female, setFemale] = useState("");
   const [nonBinary, setNonBinary] = useState("");
@@ -35,12 +35,11 @@ export default function Register3({route}) {
   const [error, setError] = useState();
 
   const isValid = async () => {
-    const errors = validateRegister({ weight,userHeight });
+    const errors = validateFunc3({ weight,userHeight });
     setError(errors);
     if (errors) return false;
     return true;
   };
-
   const genderMale = () => {
     setMale(true);
     setFemale(false);
@@ -81,9 +80,9 @@ export default function Register3({route}) {
       }, 2000);
       return;
     }
-    if (error?.height !=="" && error?.weight !== "") {
+    if (!error) {
         onRegister({
-          firstName,lastName,email,password, countryName, phone, date, units, weight,height,gender
+          firstName,lastName,email,password, countryName, phone, d, units, weight,userHeight,gender
         })
     }
   };

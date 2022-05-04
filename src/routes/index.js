@@ -6,7 +6,6 @@ import  { UserContext } from '../context/user';
 
 export default function AppContainer() {
   const {isLogged} = useContext(UserContext)
-  console.log(isLogged)
   return (
     <NavigationContainer>
         {isLogged ? <MainStack/> : <AuthStack />}

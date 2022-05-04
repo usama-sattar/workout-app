@@ -13,6 +13,7 @@ import { Image, Button, Input, Icon } from "@rneui/themed";
 const { height } = Dimensions.get("window");
 import { colors } from "../../utils/colors";
 import validateRegister from "../../utils/validate";
+import axios from "axios";
 
 export default function Register({ navigation }) {
   const [showPassword, setShowPassword] = useState(false);
@@ -30,7 +31,7 @@ export default function Register({ navigation }) {
   };
   const [emptyMessage, setEmptyMessage] = useState("");
 
-  const moveNext = () => {
+  const moveNext =async() => {
     if (
       firstName === "" ||
       lastName === "" ||
@@ -43,13 +44,21 @@ export default function Register({ navigation }) {
       }, 2000);
       return;
     }
-
-    if (
-      error?.firstName !== "" &&
-      error?.lastName !== "" &&
-      error?.email !== "" &&
-      error?.password !== ""
-    ) {
+    const response = await axios.post("http://crimsonmammoth.curlbrackets.com/api/register.php",{
+      Data: {
+        'lvl': 1,
+        "email": email
+      }
+    })
+    const data = await response.data
+    const parsed = JSON.parse(data.replace("\ufeff" , ''))
+    if(parsed.code === "100"){
+      setTimeout(() => {
+        setEmptyMessage(parsed.desc)
+      }, 2000);
+      return
+    }
+    if (!error) {
       navigation.navigate("Register2", {
         firstName,
         lastName,

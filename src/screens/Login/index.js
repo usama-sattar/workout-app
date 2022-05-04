@@ -16,7 +16,7 @@ import { useLogin } from "./useLogin";
 
 export default function Login({ navigation }) {
   const [showPassword, setShowPassword] = useState(false);
-  const { onLogin, isValid, error, setPassword, setEmail, email, password } =
+  const { onLogin, isValid, error, setPassword, setEmail, loginError, email, password } =
     useLogin();
   
     const Login = () =>{
@@ -57,6 +57,17 @@ export default function Login({ navigation }) {
                 }}
               >
                 Login with your email
+              </Text>
+            </View>
+            <View style={styles.headingText}>
+              <Text
+                style={{
+                  fontSize: 12,
+                  color: colors.white,
+                  textAlign:'center'
+                }}
+              >
+                {loginError && loginError}
               </Text>
             </View>
             <View style={{ flex: 0.4, alignSelf: "center" }}>
