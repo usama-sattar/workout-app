@@ -87,7 +87,6 @@ export default function Login({ navigation }) {
                 style={{ paddingLeft: 8 }}
                 leftIcon={
                   <Icon
-                    onPress={() => setShowPassword(!showPassword)}
                     type="material-icon"
                     color="gray"
                     name={'email'}

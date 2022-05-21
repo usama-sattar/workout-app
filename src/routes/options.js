@@ -6,7 +6,7 @@ const { height } = Dimensions.get("window");
 
 const tabIcon = (route) => ({
   headerShown: false,
-  keyboardHidesTabBar: true,
+  tabBarHideOnKeyboard:true,
   tabBarActiveTintColor: colors.primary,
   tabBarInactiveTintColor: colors.black,
   tabBarItemStyle: {

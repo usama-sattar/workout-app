@@ -5,6 +5,49 @@ const { height } = Dimensions.get("window");
 const styles = StyleSheet.create({
   flex: {
     flex: 1,
+    backgroundColor:colors.white
+  },
+  heading:{
+    width:"100%",
+    height:30,
+    justifyContent:'center',
+    backgroundColor:colors.lightgrey
+  },
+  avatar:{
+    backgroundColor:colors.primary,
+    width:60,
+    height:60,
+    justifyContent:'center',
+    alignItems:'center',
+    borderRadius:30,
+    marginLeft:10
+  },
+  row:{
+    display:'flex',
+    flexDirection:'row',
+    alignItems:'center'
+  },
+  card:{
+    width:"100%",
+    height:60,
+    justifyContent:'center',
+    borderBottomWidth:0.2,
+    borderColor: colors.grey
+  },
+  cardHead:{
+    width:"100%",
+    height:80,
+    justifyContent:'center'
+  },
+  text:{
+    fontWeight:'600',
+    color: colors.gray,
+    paddingLeft:20
+  },
+  lowHead:{
+    marginLeft:20,
+    color:'#000',
+    fontWeight:"bold"
   },
   formContainer: {
     flex: 1,
@@ -13,28 +56,26 @@ const styles = StyleSheet.create({
   },
   containerInfo: {
     width: "100%",
-    marginTop: 15,
-    
+    marginTop: 15, 
     marginBottom:50
   },
   upperContainer: {
-    height: height * 0.3,
+    height: height * 0.2,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: colors.grey,
   },
   lowerContainer: {
     padding: 5,
+    
   },
   backgroundImage: {
-    width: 120,
-    height: 120,
+    width: 80,
+    height: 80,
     position: "relative",
     justifyContent: "center",
     alignItems: "center",
   },
   formSubContainer: {
-    backgroundColor: colors.white,
     alignSelf: "center",
     width: "100%",
     borderRadius: 20,
@@ -52,7 +93,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   icon: {
-    padding: 8,
+    padding: 10,
     width: "20%",
     alignItems: "center",
   },
@@ -111,5 +152,27 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     alignItems: "flex-start",
   },
+  input:{
+    padding:10,
+    borderBottomWidth: 0.2,
+    borderWidth:0.2,
+    borderColor:colors.black,
+    borderRadius:5,
+    
+  },
+  Pinput:{
+    padding:2,
+    borderBottomWidth: 0.2,
+    borderWidth:0.2,
+    borderColor:colors.black,
+    borderRadius:5,
+    
+  },
+  saveBtn:{
+    backgroundColor:colors.primary,
+    width:60,
+    height:60
+  }
+  
 });
 export default styles;

@@ -29,133 +29,48 @@ import {
 } from "@expo/vector-icons";
 import { UserContext } from "../../context/user";
 import { colors } from "../../utils/colors";
+import { Avatar } from "@rneui/base";
 
-export default function Settings() {
-  const refName = useRef();
+export default function Settings({navigation}) {
   const { user, logout } = useContext(UserContext);
 
   return (
     <>
-      <View style={styles.formContainer}>
-        <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : null}
-          style={styles.flex}
-        >
-          <ScrollView style={[styles.flex]} showsVerticalScrollIndicator={false}>
-            <View style={styles.upperContainer}>
-              <ImageBackground
-                source={require("../../assets/man.png")}
-                style={styles.backgroundImage}
-                resizeMode="contain"
-              ></ImageBackground>
+      <View style={styles.flex}>
+        <View style={styles.heading}>
+          <Text style={styles.text}>Profile</Text>
+        </View>
+        <View style={styles.cardHead}>
+          <View style={styles.row}>
+            <View style={styles.avatar}>
+              <Text style={{ color: "white", fontSize:20 }}>{user?.firstName[0]}</Text>
             </View>
-
-            <View style={styles.lowerContainer}>
-              <View style={styles.formSubContainer}>
-                <View style={styles.containerHeading}>
-                  <View style={styles.headingTitle}>
-                    <Text style={{color: colors.white}}>
-                      Profile info
-                    </Text>
-                  </View>
-                  <View style={styles.headingLink}>
-                    <TouchableOpacity
-                      activeOpacity={0.3}
-                      style={styles.headingButton}
-                    >
-                      <Text>Edit</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      activeOpacity={0.3}
-                      style={[styles.headingButton, {marginLeft:10}]}
-                      onPress={logout}
-                    >
-                      <Text>Logout</Text>
-                    </TouchableOpacity>
-                  </View>
-                </View>
-
-                <View style={styles.containerInfo}>
-                  <View style={styles.flexRow}>
-                    <View style={styles.icon}>
-                      <FontAwesome name="user" size={15} color="black" />
-                    </View>
-                    <View style={styles.details}>
-                      <Text>
-                        {user?.firstName} {user?.lastName}
-                      </Text>
-                    </View>
-                  </View>
-                  <View style={styles.flexRow}>
-                    <View style={styles.icon}>
-                      <Zocial name="email" size={15} color="black" />
-                    </View>
-                    <View style={styles.details}>
-                      <Text>{user?.email}</Text>
-                    </View>
-                  </View>
-
-                  <View style={styles.flexRow}>
-                    <View style={styles.icon}>
-                      <Entypo name="phone" size={15} color="black" />
-                    </View>
-                    <View style={styles.details}>
-                      <Text>{user?.phoneNumber}</Text>
-                    </View>
-                  </View>
-                  <View style={styles.flexRow}>
-                    <View style={styles.icon}>
-                      <FontAwesome5
-                        name="weight-hanging"
-                        size={15}
-                        color="black"
-                      />
-                    </View>
-                    <View style={styles.details}>
-                      <Text>{user?.weight}</Text>
-                    </View>
-                  </View>
-                  <View style={styles.flexRow}>
-                    <View style={styles.icon}>
-                      <MaterialCommunityIcons
-                        name="human-male-height"
-                        size={15}
-                        color="black"
-                      />
-                    </View>
-                    <View style={styles.details}>
-                      <Text>{user?.height}</Text>
-                    </View>
-                  </View>
-                  <View style={styles.flexRow}>
-                    <View style={styles.icon}>
-                      <MaterialCommunityIcons
-                        name="gender-male-female"
-                        size={15}
-                        color="black"
-                      />
-                    </View>
-                    <View style={styles.details}>
-                      <Text>{user?.gender}</Text>
-                    </View>
-                  </View>
-                  <View style={styles.flexRow}>
-                  <View style={styles.icon}>
-                    <FontAwesome
-                      name="sort-amount-asc"
-                      size={15}
-                      color="black"
-                    />
-                  </View>
-                  <View style={styles.details}>
-                    <Text>{user?.units}</Text>
-                  </View>
-                </View>
-                </View>
-              </View>
-            </View>
-          </ScrollView>
-        </KeyboardAvoidingView>
+            <Text style={[styles.lowHead, { marginLeft: 10, fontSize:16 }]}>
+              {user?.firstName + " " + user?.lastName}
+            </Text>
+          </View>
+        </View>
+        <View style={styles.heading}>
+          <Text style={styles.text}>Account Details</Text>
+        </View>
+        <TouchableOpacity style={styles.card} onPress={()=>navigation.navigate('Email')}>
+          <Text style={styles.lowHead}>Change Email Address</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.card} onPress={()=>navigation.navigate('Phone')}>
+          <Text style={styles.lowHead}>Change Phone Number</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.card} onPress={()=>navigation.navigate('Password')}>
+          <Text style={styles.lowHead}>Change Password</Text>
+        </TouchableOpacity>
+        <View style={styles.heading}>
+          <Text style={styles.text}>Account Management</Text>
+        </View>
+        <TouchableOpacity style={styles.card} onPress={()=>navigation.navigate('Preferences')}>
+          <Text style={styles.lowHead}>Preference</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.card} onPress={logout}>
+          <Text style={styles.lowHead}>Logout</Text>
+        </TouchableOpacity>
       </View>
     </>
   );
